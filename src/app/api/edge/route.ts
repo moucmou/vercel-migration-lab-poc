@@ -1,11 +1,12 @@
 export const dynamic = "force-dynamic";
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 export async function GET(request: Request) {
+  const runtime = process.env.NEXT_RUNTIME ?? "nodejs";
   return Response.json(
     {
       ok: true,
-      runtime: process.env.NEXT_RUNTIME ?? "unknown",
+      runtime,
       deprecated: true,
       region: process.env.VERCEL_REGION ?? null,
       country: request.headers.get("x-vercel-ip-country"),
@@ -17,7 +18,7 @@ export async function GET(request: Request) {
     {
       headers: {
         "cache-control": "no-store",
-        "x-lab-runtime": "edge",
+        "x-lab-runtime": runtime,
       },
     },
   );
